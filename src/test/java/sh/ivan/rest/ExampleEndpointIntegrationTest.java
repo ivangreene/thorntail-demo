@@ -1,5 +1,7 @@
 package sh.ivan.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
@@ -13,12 +15,11 @@ import javax.ws.rs.core.Response;
 @DefaultDeployment(type = DefaultDeployment.Type.WAR)
 public class ExampleEndpointIntegrationTest {
     @Test
-    public void shouldStartWebserver() throws InterruptedException {
-//        Thread.sleep(Integer.MAX_VALUE);
+    public void shouldStartWebserver() {
         ExampleResource exampleEndpoint = RestClientBuilder.newBuilder()
                 .baseUri(URI.create("http://localhost:8080/rest/example"))
                 .build(ExampleResource.class);
         Response response = exampleEndpoint.doGet();
-        assert response.getStatus() == 200;
+        assertThat(response.getStatus()).isEqualTo(200);
     }
 }
